@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Game = () => {
+const Game:React.FC = () => {
     return (
         <div>
             <h1>Game Page</h1>

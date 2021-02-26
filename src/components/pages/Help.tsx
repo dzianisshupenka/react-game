@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Help = () => {
+const Help:React.FC = () => {
     return (
         <div>
             <h1>Help page</h1>
