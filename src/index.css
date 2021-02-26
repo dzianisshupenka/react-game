@@ -176,3 +176,31 @@ code {
   transform: rotate(-45deg);
   background-color: #ffca3a;
 }
+
+.game-card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 70px;
+  margin: 5px;
+  border-radius: 10px;
+  background-color: #1982c4;
+}
+
+.game-card:hover {
+  background-color: #1573ad;
+  box-shadow: 0 0 3px #ffca3a;
+  border: 1px solid #ffca3a;
+}
+
+.game-cards-field {
+  width: 305px;
+  height: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
