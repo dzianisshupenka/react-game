@@ -45,9 +45,47 @@ code {
   align-items: center;
   font-size: 18px;
   width: 600px;
-  height: 250px;
+  height: 270px;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 25px;
+}
+
+.choose-modal {
+  height: 330px;
+}
+
+.choose-figure-figures {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.choose-figure-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.figure-wrapper {
+  box-sizing: border-box;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.figure-wrapper:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 3px #ffca3a;
+  border: 1px solid #ffca3a;
+}
+
+.figure-checked {
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 3px #ffca3a;
+  border: 1px solid #ffca3a;
 }
 
 .welcome-header {
@@ -144,6 +182,35 @@ code {
   transition: width 500ms;
 }
 
+.quad {
+  width: 50px;
+  height: 50px;
+  background-color: #ff595e;
+}
+
+.circl {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: #8ac926;
+}
+
+.trian {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 50px solid #1982c4;
+}
+
+.diam {
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  transform: rotate(-45deg);
+  background-color: #ffca3a;
+}
+
 .player-avatar-quad {
   width: 100px;
   height: 100px;
@@ -203,4 +270,39 @@ code {
   align-content: flex-start;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 20px;
+}
+
+.game-moves-field {
+  width: 305px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.moves-header {
+  margin: 15px;
+  font-size: 18px;
+  color: #ffca3a;
+  text-shadow: 0 0 2px #000;
+}
+
+.moves-item {
+  margin-left: 25px;
+  margin-top: 5px;
+  font-size: 15px;
+  color: #8ac926;
+  text-shadow: 0 0 2px #000;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.inputs-style {
+  width: 100%;
+  margin-top: 5px;
 }

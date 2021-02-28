@@ -1,7 +1,14 @@
 import React from 'react';
 import { CardsField, MovesField, PlayerField } from '../game';
 
-const Game:React.FC = () => {
+interface GameProps {
+    info: object
+}
+
+const Game:React.FC<GameProps> = (props) => {
+
+    console.log(props.info);
+
     return (
         <div className="game-container">
             <div className="game-header">FIGURES BATTLE</div>
