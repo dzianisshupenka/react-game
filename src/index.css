@@ -303,6 +303,11 @@ code {
 }
 
 .inputs-style {
-  width: 100%;
+  width: 200px;
   margin-top: 5px;
+}
+
+.input-error {
+  margin-left: 15px;
+  color: red;
 }

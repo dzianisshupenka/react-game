@@ -9,3 +9,10 @@ export interface IUser {
     nickname: string
     password: string
 }
+
+export interface IMove {
+    hand: string
+    card: string
+    healed: number
+    damage: number
+}

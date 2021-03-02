@@ -2,11 +2,13 @@ import React from 'react';
 
 interface PlayerFieldProps {
     avatar: string
+    player: string
+    health: number
 }
 
 let avatarStyle = [''];
 
-const PlayerField:React.FC<PlayerFieldProps> = ({avatar}) => {
+const PlayerField:React.FC<PlayerFieldProps> = ({avatar, player, health}) => {
     switch (avatar) {
         case 'quad':
             avatarStyle = ['player-avatar-quad'];
@@ -24,9 +26,9 @@ const PlayerField:React.FC<PlayerFieldProps> = ({avatar}) => {
 
     return (
         <div className="player-card">
-            <span className="player-name">PLAYER [{avatar}]</span>
+            <span className="player-name">{player} [{avatar}]</span>
             <div className="player-health">
-                <div className="player-health-bar"  style={{width: '95%'}}></div>
+                <div className="player-health-bar"  style={{width: `${health}%`}}></div>
             </div>
             <div className={avatarStyle.join(' ')}></div>
         </div>

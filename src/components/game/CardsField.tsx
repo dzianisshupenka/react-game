@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from '.';
 
-const cards = ["A", "HA", "RM", "GC", "H", "M", "S"];
+interface CardsFieldProps {
+    cardsList: Array<string> | undefined
+    init: boolean
+    move(id:number, card: string): void
+}
 
-const CardsField:React.FC = () => {
+
+const CardsField:React.FC<CardsFieldProps> = ({cardsList, init, move}) => {
+
     return (
         <div className="game-cards-field">
-            {cards.map((item, index) => {
-                return <Card name={item} key={index} />
-            })}
+            {cardsList ?  
+            cardsList.map((item, index) => {
+                return <Card init={init} move={move} name={item} index={index} key={index+item} />
+            }): 
+            null
+            }
         </div>
     );
 };

@@ -15,6 +15,8 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [figure, setFigure] = useState<string>('');
+    const [passwordError, setPasswordError] = useState<string>();
+    const [nickError, setNickError] = useState<string>();
 
     const history = useHistory();
 
@@ -36,9 +38,24 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
     }
 
     const setUserHandler = () => {
-        setLoginModalVisible(false); 
-        setChooseLoginModalVisible(true);
-        setUser(nickname, password); 
+        if (nickname.length >= 4 && password.length >= 6) {
+            setLoginModalVisible(false); 
+            setChooseLoginModalVisible(true);
+            setUser(nickname, password);
+            setNickError('');
+            setPasswordError('');
+        }
+        if (nickname.length < 4) {
+            setNickError("4 characters min")
+        } else {
+            setNickError('');
+        }
+        if (password.length < 6) {
+            setPasswordError("6 characters min")
+        } else {
+            setPasswordError('');
+        }
+
     }
 
     const welcomeClasses = ["welcome-modal"];
@@ -75,6 +92,7 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
                             type="text" 
                             name="title" 
                             />
+                        <span className="input-error">{nickError}</span>
                     </label>
                     <label className="inputs">
                         <input 
@@ -84,6 +102,7 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
                             placeholder="password" 
                             type="password" 
                             name="pass" />
+                        <span className="input-error">{passwordError}</span>
                     </label>
                 </form>
                 <button className="welcome-start-button" onClick={setUserHandler}>NEXT</button>
