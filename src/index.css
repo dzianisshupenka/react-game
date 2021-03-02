@@ -276,6 +276,7 @@ code {
   width: 305px;
   height: 250px;
   display: flex;
+  overflow-y: scroll;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 20px;
@@ -292,7 +293,7 @@ code {
   margin-left: 25px;
   margin-top: 5px;
   font-size: 15px;
-  color: #8ac926;
+  color: #ffca3a;
   text-shadow: 0 0 2px #000;
 }
 
@@ -310,4 +311,22 @@ code {
 .input-error {
   margin-left: 15px;
   color: red;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #bcc9d2; 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+background: #bcc9d2; 
 }

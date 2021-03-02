@@ -33,27 +33,64 @@ const Game:React.FC<GameProps> = ({info}) => {
     const [playerHealth, setPlayerHealth ] = useState(100);
     const [enemyHealth, setEnemyHealth ] = useState(100);
 
+    useEffect(() => {
+        console.log(currentMove);
+        if(currentMove) {
+            if(moves?.length){
+                setMoves([...moves, currentMove])
+            } else {
+                setMoves([currentMove])
+            }
+        }
+        console.log(moves);
+    }, [currentMove]);
+
     const specialMOve = () => {
+        const hand =  turn === "player" ? info.player : "Enemy";
+        const card = "SM";
         switch (turn === "player" ? info.figure : figures[enemyId]) {
             case "quad":
                 turn === "player" ? setEnemyHealth(prev => prev - 40) : setPlayerHealth(prev => prev - 40);
+                setCurrentMove({
+                    hand,
+                    card,
+                    healed: 0,
+                    damage: 40
+                });
                 break;
             case "trian":
                 if (turn === "player") {
-                    setPlayerHealth(prev => prev + 30);
+                    setPlayerHealth(prev => (prev + 30) > 100 ? 100 : prev + 30);
                     setEnemyHealth(prev => prev - 30);
                 } else {
                     setPlayerHealth(prev => prev - 30);
-                    setEnemyHealth(prev => prev + 30);
+                    setEnemyHealth(prev => (prev + 30) > 100 ? 100 : prev + 30);
                 }
+                setCurrentMove({
+                    hand,
+                    card,
+                    healed: 30,
+                    damage: 30
+                });
                 break;
-
             case "circl":
                 turn === "player" ? setEnemyHealth(prev => prev - 45) : setPlayerHealth(prev => prev - 45);
+                setCurrentMove({
+                    hand,
+                    card,
+                    healed: 0,
+                    damage: 45
+                });
                 break;
             case "diam":
-                turn === "player" ? setPlayerHealth(prev => prev + 45) : setEnemyHealth(prev => prev + 45);
-
+                turn === "player" ? setPlayerHealth(prev => (prev + 45) > 100 ? 100 : prev + 45) : setEnemyHealth(prev => (prev + 45) > 100 ? 100 : prev + 45);
+                setCurrentMove({
+                    hand,
+                    card,
+                    healed: 45,
+                    damage: 0
+                });
+                break;
         }
     }
 
@@ -65,15 +102,36 @@ const Game:React.FC<GameProps> = ({info}) => {
             "S"
         ]
         const randomCard = cardsForRandom[Math.floor(Math.random() * 4)];
+        const hand =  turn === "player" ? info.player : "Enemy";
         switch (randomCard) {
             case "A":
                 turn === "player" ? setEnemyHealth(prev => prev - 20) : setPlayerHealth(prev => prev - 20);
+                setCurrentMove({
+                    hand,
+                    card: "RM(A)",
+                    healed: 0,
+                    damage: 20
+                });
                 break;
             case "HA":
                 turn === "player" ? setEnemyHealth(prev => prev - 40) : setPlayerHealth(prev => prev - 40);
+                setCurrentMove({
+                    hand,
+                    card: "RM(HA)",
+                    healed: 0,
+                    damage: 40
+                });
                 break;
             case "H":
-                turn === "player" ? setEnemyHealth(prev => prev + 25) : setPlayerHealth(prev => prev + 25);
+                turn === "player" ? 
+                setEnemyHealth(prev => (prev + 25) > 100 ? 100 : prev + 25) : 
+                setPlayerHealth(prev => (prev + 25) > 100 ? 100 : prev + 25);
+                setCurrentMove({
+                    hand,
+                    card: "RM(H)",
+                    healed: 25,
+                    damage: 0
+                });
                 break;
             case "S":
                 specialMOve();
@@ -83,19 +141,38 @@ const Game:React.FC<GameProps> = ({info}) => {
 
     const playerMove = (id:number, card: string) => {
         setInit(false);
+        const hand =  turn === "player" ? info.player : "Enemy";
         if (turn === "player") {
             switch(card) {
                 case "A":
                     setEnemyHealth(prev => prev - 20);
+                    setCurrentMove({
+                        hand,
+                        card,
+                        healed: 0,
+                        damage: 20
+                    });
                     break;
                 case "HA":
                     setEnemyHealth(prev => prev - 40);
+                    setCurrentMove({
+                        hand,
+                        card,
+                        healed: 0,
+                        damage: 40
+                    });
                     break;
                 case "RM":
                     randomMove();
                     break;
                 case "H":
-                    setPlayerHealth(prev => prev + 20);
+                    setPlayerHealth(prev => (prev + 20) > 100 ? 100 : prev + 20);
+                    setCurrentMove({
+                        hand,
+                        card,
+                        healed: 20,
+                        damage: 0
+                    });
                     break;
                 case "S":
                     specialMOve();
@@ -108,19 +185,38 @@ const Game:React.FC<GameProps> = ({info}) => {
 
     const enemyMove = (id:number, card: string) => {
         setInit(false)
+        const hand =  turn === "player" ? info.player : "Enemy";
         if (turn === "enemy") {
             switch(card) {
                 case "A":
                     setPlayerHealth(prev => prev - 20);
+                    setCurrentMove({
+                        hand,
+                        card,
+                        healed: 0,
+                        damage: 20
+                    });
                     break;
                 case "HA":
                     setPlayerHealth(prev => prev - 40);
+                    setCurrentMove({
+                        hand,
+                        card,
+                        healed: 0,
+                        damage: 40
+                    });
                     break;
                 case "RM":
                     randomMove();
                     break;
                 case "H":
-                    setEnemyHealth(prev => prev + 20);
+                    setEnemyHealth(prev => (prev + 20) > 100 ? 100 : prev + 20);
+                    setCurrentMove({
+                        hand,
+                        card,
+                        healed: 20,
+                        damage: 0
+                    });
                     break;
                 case "S":
                     specialMOve();
@@ -159,7 +255,7 @@ const Game:React.FC<GameProps> = ({info}) => {
                 </div>
                 <div className="game-cards-and-moves">
                     <CardsField init={init} move={playerMove} cardsList={playerCardsList} />
-                    <MovesField />
+                    <MovesField moves={moves} />
                     <CardsField init={init} move={enemyMove} cardsList={enemyCardsList} />
                 </div>
             </> : 
