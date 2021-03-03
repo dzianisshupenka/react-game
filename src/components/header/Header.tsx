@@ -2,13 +2,13 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-const Header = () => {
+const Header:React.FC = () => {
     return (
-        <div>
-            <NavLink to="/">Main</NavLink>
-            <NavLink to="/game">Game</NavLink>
-            <NavLink to="/settings">Settings</NavLink>
-            <NavLink to="/help">Help</NavLink>
+        <div className="main-header">
+            <NavLink className="main-header-link" to="/">MAIN</NavLink>
+            <NavLink className="main-header-link" to="/game">GAME</NavLink>
+            <NavLink className="main-header-link" to="/settings">SETTINGS</NavLink>
+            <NavLink className="main-header-link" to="/help">HELP</NavLink>
         </div>
     );
 };
