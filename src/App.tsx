@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Footer from './components/footer';
 import Header from './components/header';
 import { Game, Help, Settings, Welcome } from './components/pages';
 import { IGameInfo, IUser } from './interfaces';
@@ -48,6 +49,7 @@ const App:React.FC = () => {
       <Route path="/game" render={() => <Game info={gameInfo} />} />
       <Route path="/settings" component={Settings} />
       <Route path="/help" component={Help} />
+      <Footer />
     </Router>
   );
 };

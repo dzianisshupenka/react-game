@@ -39,6 +39,20 @@ const Game:React.FC<GameProps> = ({info}) => {
     const history = useHistory();
 
     useEffect(() => {
+        setEnemyId(Math.floor(Math.random() * 4));
+
+        const playerCards = [];
+        const enemyCards = [];
+
+        for(let i = 0; i < 5; i++ ) {
+            playerCards.push(cards[Math.floor(Math.random() * 5)]);
+            enemyCards.push(cards[Math.floor(Math.random() * 5)]);
+        }
+        setPlayerCardsList(playerCards);
+        setEnemyCardsList(enemyCards);
+    }, [])
+
+    useEffect(() => {
         if(currentMove) {
             if(moves?.length){
                 setMoves([...moves, currentMove])
@@ -229,20 +243,6 @@ const Game:React.FC<GameProps> = ({info}) => {
             setTurn("player");
         }
     }
-
-    useEffect(() => {
-        setEnemyId(Math.floor(Math.random() * 4));
-
-        const playerCards = [];
-        const enemyCards = [];
-
-        for(let i = 0; i < 5; i++ ) {
-            playerCards.push(cards[Math.floor(Math.random() * 5)]);
-            enemyCards.push(cards[Math.floor(Math.random() * 5)]);
-        }
-        setPlayerCardsList(playerCards);
-        setEnemyCardsList(enemyCards);
-    }, [])
 
     const gameOverNewGameHandler = () => {
         history.push('/');

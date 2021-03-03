@@ -21,7 +21,31 @@ code {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #503575;
+}
+
+.main-footer {
+  width: 100vw;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  background-color: #503575;
+  color: #ffca3a;
+  text-shadow: 0 0 2px #000;
+}
+
+.main-footer a {
+  font-size: 18px;
+  text-decoration: none;
+  color: #ffca3a;
+  margin: 0 20px;
+}
+
+.rs-logo {
+  width: 60px;
 }
 
 .main-header-link {
@@ -29,6 +53,31 @@ code {
   font-size: 25px;
   color: #ffca3a;
   text-shadow: 0 0 2px #000;
+}
+
+.settings-main {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin-top: 55px;
+  justify-content: center;
+  color: #ffca3a;
+  text-shadow: 0 0 2px #000;
+}
+
+.help-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  margin-top: 55px;
+  justify-content: center;
+  color: #ffca3a;
+  text-shadow: 0 0 2px #000;
+}
+
+.help-text {
+  width: 80%
 }
 
 .welcome-main {
