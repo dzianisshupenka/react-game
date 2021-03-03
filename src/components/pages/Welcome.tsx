@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { ChooseFigure } from '../welcome';
 
@@ -20,6 +20,24 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
 
     const history = useHistory();
 
+    useEffect(() => {
+        const userString = localStorage.getItem("user");
+        if (typeof userString === 'string') {
+          const user = JSON.parse(userString);
+          setNickname(user.nickname);
+          setPassword(user.password);
+        }
+    }, [])
+
+    const playHandler = () => {
+        setWelcomeModalVisible(false);
+        if (nickname !== "") {
+            setChooseLoginModalVisible(true);
+        } else {
+            setLoginModalVisible(true);
+        }
+    }
+
     const nicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNickname(event.target.value);
     };
@@ -33,8 +51,10 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
     }
 
     const startGame = () => {
-        update(nickname, figure);
-        history.push("./game");
+        if (figure !== '') {
+            update(nickname, figure);
+            history.push("./game");
+        }
     }
 
     const setUserHandler = () => {
@@ -44,6 +64,7 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
             setUser(nickname, password);
             setNickError('');
             setPasswordError('');
+            localStorage.setItem("user", JSON.stringify({nickname, password}));
         }
         if (nickname.length < 4) {
             setNickError("4 characters min")
@@ -78,7 +99,7 @@ const Welcome:React.FC <WelcomeProps> = ({update, setUser}) => {
         <div className="welcome-main">
             <div className={welcomeClasses.join(' ')}>
                 <h1 className="welcome-header">Welcome to the FIGURES BATTLE World! Let's play?</h1>
-                <button className="welcome-start-button" onClick={() => {setWelcomeModalVisible(false); setLoginModalVisible(true)}}>PlAY!</button>
+                <button className="welcome-start-button" onClick={playHandler}>PlAY!</button>
             </div>
             <div className={loginClasses.join(' ')}>
                 <h1 className="welcome-header">Please, enter your nickname and password</h1>

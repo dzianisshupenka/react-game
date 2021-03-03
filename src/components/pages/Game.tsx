@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { IGameInfo, IMove } from '../../interfaces';
-import { CardsField, MovesField, PlayerField } from '../game';
+import { CardsField, GameOver, MovesField, PlayerField } from '../game';
 
 interface GameProps {
     info: IGameInfo
@@ -18,7 +19,7 @@ const cards = [
     "HA", 
     "RM", 
     "H",
-    "S"
+    "SM"
 ]
 
 const Game:React.FC<GameProps> = ({info}) => {
@@ -32,9 +33,12 @@ const Game:React.FC<GameProps> = ({info}) => {
     const [init, setInit ] = useState(true);
     const [playerHealth, setPlayerHealth ] = useState(100);
     const [enemyHealth, setEnemyHealth ] = useState(100);
+    const [gameOverVisible, setGameOverVisible] = useState(true);
+    const [loser, setLoser] = useState('Enemy');
+
+    const history = useHistory();
 
     useEffect(() => {
-        console.log(currentMove);
         if(currentMove) {
             if(moves?.length){
                 setMoves([...moves, currentMove])
@@ -42,7 +46,6 @@ const Game:React.FC<GameProps> = ({info}) => {
                 setMoves([currentMove])
             }
         }
-        console.log(moves);
     }, [currentMove]);
 
     const specialMOve = () => {
@@ -99,7 +102,7 @@ const Game:React.FC<GameProps> = ({info}) => {
             "A", 
             "HA",
             "H",
-            "S"
+            "SM"
         ]
         const randomCard = cardsForRandom[Math.floor(Math.random() * 4)];
         const hand =  turn === "player" ? info.player : "Enemy";
@@ -124,8 +127,8 @@ const Game:React.FC<GameProps> = ({info}) => {
                 break;
             case "H":
                 turn === "player" ? 
-                setEnemyHealth(prev => (prev + 25) > 100 ? 100 : prev + 25) : 
-                setPlayerHealth(prev => (prev + 25) > 100 ? 100 : prev + 25);
+                setPlayerHealth(prev => (prev + 25) > 100 ? 100 : prev + 25) : 
+                setEnemyHealth(prev => (prev + 25) > 100 ? 100 : prev + 25);
                 setCurrentMove({
                     hand,
                     card: "RM(H)",
@@ -133,7 +136,7 @@ const Game:React.FC<GameProps> = ({info}) => {
                     damage: 0
                 });
                 break;
-            case "S":
+            case "SM":
                 specialMOve();
                 break;
         }
@@ -174,7 +177,7 @@ const Game:React.FC<GameProps> = ({info}) => {
                         damage: 0
                     });
                     break;
-                case "S":
+                case "SM":
                     specialMOve();
                     break;
             }
@@ -218,7 +221,7 @@ const Game:React.FC<GameProps> = ({info}) => {
                         damage: 0
                     });
                     break;
-                case "S":
+                case "SM":
                     specialMOve();
                     break;
             }
@@ -241,10 +244,35 @@ const Game:React.FC<GameProps> = ({info}) => {
         setEnemyCardsList(enemyCards);
     }, [])
 
-    
+    const gameOverNewGameHandler = () => {
+        history.push('/');
+        setGameOverVisible(true);
+    }
+
+    useEffect(() => {
+        if(playerHealth <= 0) {
+            setLoser(info.player);
+            setGameOverVisible(false);
+        } else if (enemyHealth <= 0) {
+            setLoser("Enemy");
+            setGameOverVisible(false);
+        } else if (enemyCardsList?.length === 0 && playerCardsList?.length === 0) {
+            if (enemyHealth > playerHealth) {
+                setLoser(info.player);
+                setGameOverVisible(false);
+            } else if (enemyHealth < playerHealth) {
+                setLoser("Enemy");
+                setGameOverVisible(false);
+            } else if (enemyHealth === playerHealth) {
+                setLoser("Draw");
+                setGameOverVisible(false);
+            }
+        }
+    }, [playerHealth, enemyHealth, enemyCardsList, playerCardsList])
 
     return (
         <div className="game-container">
+            <GameOver loser={loser} visible={gameOverVisible} newGame={gameOverNewGameHandler} />
             <div className="game-header">FIGURES BATTLE</div>
             {info.isRunning ? 
             <>
@@ -259,8 +287,11 @@ const Game:React.FC<GameProps> = ({info}) => {
                     <CardsField init={init} move={enemyMove} cardsList={enemyCardsList} />
                 </div>
             </> : 
-            <h1 className="game-header">NO ACTIVE GAME FOUNDED</h1>}
-
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+               <h1 className="game-header">NO ACTIVE GAME FOUNDED</h1> 
+               <button onClick={() => history.push("/")} className="welcome-start-button">NEW GAME</button>
+            </div>
+            }
         </div>
     );
 };
