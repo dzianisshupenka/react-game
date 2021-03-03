@@ -4,10 +4,11 @@ interface CardProps {
     name: string
     index: number
     init: boolean
+    turn: string
     move(id:number, card: string): void
 }
 
-const Card:React.FC<CardProps> = ({name, index, init, move}) => {
+const Card:React.FC<CardProps> = ({name, index, init, move, turn}) => {
 
     const [value, setValue] = useState('base');
 
@@ -21,8 +22,14 @@ const Card:React.FC<CardProps> = ({name, index, init, move}) => {
         }
     }, [])
 
+    const onClickHandler = () => {
+        if (turn === "player") {
+            move(index, name);
+        }
+    }
+
     return value !== 'base' ? 
-        <div className="game-card" onClick={() => move(index, name)}>
+        <div className="game-card" onClick={onClickHandler}>
             {value}
         </div> :
         <div>

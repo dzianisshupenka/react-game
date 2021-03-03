@@ -270,6 +270,48 @@ const Game:React.FC<GameProps> = ({info}) => {
         }
     }, [playerHealth, enemyHealth, enemyCardsList, playerCardsList])
 
+    useEffect(() => {
+        const enemy = figures[enemyId];
+        const heal = () => {
+            if (enemyCardsList !== undefined) {
+                if (enemyCardsList.indexOf("SM") >= 0 && enemy === 'diam') {
+                    enemyMove(enemyCardsList.indexOf("SM"), "SM");
+                } else if (enemyCardsList.indexOf("H") >= 0) {
+                    enemyMove(enemyCardsList.indexOf("H"), "H");
+                } else if (enemyCardsList.indexOf("RM") >= 0) {
+                    enemyMove(enemyCardsList.indexOf("RM"), "RM");
+                } else {
+                    attack();
+                }
+            }
+        }
+
+        const attack = () => {
+            console.log(enemyCardsList);
+            if (enemyCardsList !== undefined) {
+                if (enemyCardsList.indexOf("HA") >= 0) {
+                    enemyMove(enemyCardsList.indexOf("HA"), "HA");
+                } else if (enemyCardsList.indexOf("SM") >= 0 && enemy !== 'diam') {
+                    enemyMove(enemyCardsList.indexOf("SM"), "SM");
+                } else if (enemyCardsList.indexOf("A") >= 0) {
+                    enemyMove(enemyCardsList.indexOf("A"), "A");
+                } else if (enemyCardsList.indexOf("RM") >= 0) {
+                    enemyMove(enemyCardsList.indexOf("RM"), "RM");
+                }
+            }
+        }
+
+        setTimeout(() => {
+            if (turn === 'enemy') {
+                if (enemyHealth >= 50) {
+                    attack();
+                } else if (enemyHealth < 50 && enemyHealth > 0) {
+                    heal();
+                }
+            }
+        }, 2000)
+    }, [turn])
+
     return (
         <div className="game-container">
             <GameOver loser={loser} visible={gameOverVisible} newGame={gameOverNewGameHandler} />
@@ -282,9 +324,9 @@ const Game:React.FC<GameProps> = ({info}) => {
                     <PlayerField health={enemyHealth} player="Enemy" avatar={figures[enemyId]} />
                 </div>
                 <div className="game-cards-and-moves">
-                    <CardsField init={init} move={playerMove} cardsList={playerCardsList} />
+                    <CardsField init={init} turn={turn} move={playerMove} cardsList={playerCardsList} />
                     <MovesField moves={moves} />
-                    <CardsField init={init} move={enemyMove} cardsList={enemyCardsList} />
+                    <CardsField init={init} turn={turn} move={enemyMove} cardsList={enemyCardsList} />
                 </div>
             </> : 
             <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
